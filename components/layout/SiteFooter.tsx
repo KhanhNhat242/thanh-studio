@@ -49,8 +49,10 @@ export function SiteFooter() {
               Liên hệ
             </h3>
             <ul className="mt-6 space-y-4 text-[15px] text-cream/80">
-              <li className="flex items-start justify-center gap-3 md:justify-start">
-                <PinIcon className="mt-0.5 size-[18px] shrink-0 text-champagne" />
+              {/* Mobile (căn giữa): icon nằm cùng dòng chữ để luôn đứng sát chữ đầu tiên khi địa chỉ xuống dòng.
+                  Desktop (căn trái): icon một cột, các dòng địa chỉ thẳng hàng. */}
+              <li className="md:flex md:items-start md:gap-3">
+                <PinIcon className="mr-3 inline-block size-[18px] shrink-0 -translate-y-px align-middle text-champagne md:mt-0.5 md:mr-0 md:translate-y-0" />
                 <span>{siteConfig.branches.hue.address}</span>
               </li>
               <li>

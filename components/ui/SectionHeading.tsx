@@ -63,7 +63,7 @@ export function SectionHeading({
   if (split) {
     return (
       <div
-        data-reveal="up"
+        data-reveal="up" suppressHydrationWarning
         className={`grid gap-6 lg:grid-cols-12 lg:items-end lg:gap-10 ${className}`}
       >
         <div className="lg:col-span-7">{head}</div>
@@ -77,7 +77,7 @@ export function SectionHeading({
 
   return (
     <div
-      data-reveal="up"
+      data-reveal="up" suppressHydrationWarning
       className={`${center ? "mx-auto text-center" : ""} max-w-[820px] ${className}`}
     >
       {head}

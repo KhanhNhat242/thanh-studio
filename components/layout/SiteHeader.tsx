@@ -22,14 +22,27 @@ export function SiteHeader({ variant = "overlay" }: SiteHeaderProps) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Khoá cuộn trang khi menu mobile mở. Phải khoá trên <html>: html có overflow-x: clip nên chính nó là
+  // vùng cuộn — overflow: hidden chỉ đặt trên body không có tác dụng.
   useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
     if (!open) return;
+    const root = document.documentElement;
+    const prev = { html: root.style.overflow, body: document.body.style.overflow, overscroll: root.style.overscrollBehavior };
+    root.style.overflow = "hidden";
+    root.style.overscrollBehavior = "none";
+    document.body.style.overflow = "hidden";
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    // Menu rộng tới lg; xoay ngang / phóng to cửa sổ lên desktop thì đóng để không kẹt trạng thái khoá cuộn
+    const desktop = window.matchMedia("(min-width: 64rem)");
+    const onDesktop = () => desktop.matches && setOpen(false);
     window.addEventListener("keydown", onKey);
+    desktop.addEventListener("change", onDesktop);
     return () => {
       window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
+      desktop.removeEventListener("change", onDesktop);
+      root.style.overflow = prev.html;
+      root.style.overscrollBehavior = prev.overscroll;
+      document.body.style.overflow = prev.body;
     };
   }, [open]);
 
@@ -108,14 +121,14 @@ export function SiteHeader({ variant = "overlay" }: SiteHeaderProps) {
 
       {/* Menu mobile toàn màn hình */}
       <div
-        className={`fixed inset-0 z-[60] flex flex-col bg-cream transition-[opacity,visibility] duration-500 lg:hidden ${
+        className={`fixed inset-x-0 top-0 z-[60] flex h-dvh flex-col overflow-y-auto overscroll-contain bg-cream transition-[opacity,visibility] duration-500 lg:hidden ${
           open ? "visible opacity-100" : "invisible opacity-0"
         }`}
         role="dialog"
         aria-modal="true"
         aria-label="Menu"
       >
-        <div className="flex h-[68px] items-center justify-between px-5 md:px-8">
+        <div className="flex h-[68px] shrink-0 items-center justify-between px-5 md:px-8">
           <Logo tone="ink" />
           <button
             type="button"
@@ -126,7 +139,7 @@ export function SiteHeader({ variant = "overlay" }: SiteHeaderProps) {
             <CloseIcon className="size-6" />
           </button>
         </div>
-        <nav aria-label="Menu di động" className="flex flex-1 flex-col justify-center px-8">
+        <nav aria-label="Menu di động" className="flex flex-1 flex-col justify-center px-8 py-4">
           <ul className="space-y-1">
             {homeNav.map((item, i) => (
               <li

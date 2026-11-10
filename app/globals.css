@@ -295,16 +295,18 @@ blockquote {
 /* ==========================================================================
    Dịch vụ — thẻ xếp chồng, cuộn dọc để trượt ngang sang thẻ kế tiếp
    ========================================================================== */
+/* Màn hình lớn: sân khấu cao tối đa 960px (đồng bộ hero), bám giữa màn hình thay vì phủ kín */
 .services-track {
+  --stage-h: min(100svh, 960px);
   position: relative;
-  height: calc(100svh + var(--steps) * var(--step) * 100svh);
+  height: calc(var(--stage-h) + var(--steps) * var(--step) * 100svh);
 }
 
 .services-stage {
   position: sticky;
-  top: 0;
+  top: max(0px, (100svh - var(--stage-h)) / 2);
   display: flex;
-  height: 100svh;
+  height: var(--stage-h);
   flex-direction: column;
   overflow: hidden;
 }

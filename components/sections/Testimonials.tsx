@@ -32,7 +32,7 @@ export function Testimonials() {
         </SectionHeading>
 
         {lead && (
-          <figure data-reveal="up" className="mt-16 max-w-[980px] lg:mt-24">
+          <figure data-reveal="up" suppressHydrationWarning className="mt-16 max-w-[980px] lg:mt-24">
             <blockquote className="font-serif text-[28px] leading-[1.35] font-light text-ink italic md:text-[38px] xl:text-[44px]">
               “{nb(lead.quote)}”
             </blockquote>
@@ -44,7 +44,7 @@ export function Testimonials() {
 
         {/* Thẻ cảm nhận: dấu ngoặc kép lớn, tên + dòng phụ, ô đại diện tròn góc phải, mảng màu nhấn lệch phía sau.
             Không có hàng sao / điểm đánh giá — REQUIREMENTS mục 9 cấm bịa số sao. */}
-        <div data-reveal="up" className="mt-20 grid gap-14 md:grid-cols-2 md:gap-10 lg:mt-24 lg:gap-14">
+        <div data-reveal="up" suppressHydrationWarning className="mt-20 grid gap-14 md:grid-cols-2 md:gap-10 lg:mt-24 lg:gap-14">
           {rest.map((t, i) => (
             // Thẻ nổi bồng bềnh trên mặt nước (cùng hệ .float-water với ảnh About); hai thẻ lệch nhịp nhau
             <div

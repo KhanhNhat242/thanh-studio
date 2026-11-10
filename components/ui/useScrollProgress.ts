@@ -6,7 +6,8 @@ import { useEffect, useRef, type RefObject } from "react";
  * Theo dõi tiến độ cuộn qua một "track" cao (bên trong có sân khấu `position: sticky`).
  * Gọi `onProgress(p)` với p ∈ [0, 1] mỗi khung hình khi đang cuộn — có làm mượt (lerp),
  * ghi thẳng style qua ref nên không render lại React.
- * p = 0: đỉnh track chạm đỉnh màn hình · p = 1: đáy track chạm đáy màn hình.
+ * Sân khấu là phần tử con đầu tiên của track; có thể thấp hơn màn hình (bị giới hạn chiều cao trên màn hình lớn)
+ * và bám ở `top` > 0. p = 0: sân khấu bắt đầu bám · p = 1: sân khấu thôi bám.
  */
 export function useScrollProgress(
   trackRef: RefObject<HTMLElement | null>,
@@ -28,8 +29,11 @@ export function useScrollProgress(
 
     const read = () => {
       const r = track.getBoundingClientRect();
-      const span = r.height - window.innerHeight;
-      target = span > 0 ? Math.min(1, Math.max(0, -r.top / span)) : 0;
+      const stage = track.firstElementChild as HTMLElement | null;
+      const stageH = stage?.offsetHeight || window.innerHeight;
+      const stickTop = stage ? parseFloat(getComputedStyle(stage).top) || 0 : 0;
+      const span = r.height - stageH;
+      target = span > 0 ? Math.min(1, Math.max(0, (stickTop - r.top) / span)) : 0;
     };
 
     const tick = () => {

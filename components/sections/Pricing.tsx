@@ -29,7 +29,7 @@ export function Pricing() {
         />
 
         <ul
-          data-reveal="up"
+          data-reveal="up" suppressHydrationWarning
           className="mx-auto mt-12 grid max-w-[480px] gap-6 lg:mt-16 lg:max-w-none lg:grid-cols-3 lg:gap-8"
         >
           {packages.map((p) => (

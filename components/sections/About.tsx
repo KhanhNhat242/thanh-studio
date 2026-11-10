@@ -10,7 +10,7 @@ export function About() {
       <Container>
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-10">
           {/* Ảnh lớn bên trái */}
-          <figure data-reveal="up" className="lg:col-span-6 xl:col-span-7">
+          <figure data-reveal="up" suppressHydrationWarning className="lg:col-span-6 xl:col-span-7">
             <div className="relative aspect-[4/5] overflow-hidden">
               <Image
                 src={albumPhotos["song-huong-khach-san-co-dien"][0]}
@@ -24,7 +24,7 @@ export function About() {
           </figure>
 
           {/* Cột chữ bên phải, lệch xuống như trang tạp chí */}
-          <div data-reveal="up" className="lg:col-span-6 lg:pt-16 xl:col-span-5 xl:pt-24">
+          <div data-reveal="up" suppressHydrationWarning className="lg:col-span-6 lg:pt-16 xl:col-span-5 xl:pt-24">
             <h2 className="mt-4 font-serif text-[38px] leading-[1.08] font-light tracking-[-0.01em] sm:text-[46px] md:text-[56px]">
               {nb("Chụp chậm, để ảnh kể đúng chuyện của hai bạn")}
             </h2>
@@ -38,7 +38,7 @@ export function About() {
             </p>
 
             {/* Ảnh "nổi bồng bềnh trên mặt nước": nhấp nhô + lắc nhẹ, bóng nước & gợn sóng bên dưới */}
-            <div className="float-water relative mt-10 mb-12 ml-auto w-[62%] sm:w-[48%] lg:w-[58%]">
+            <div className="float-water relative mx-auto mt-10 mb-12 w-[62%] sm:w-[48%] lg:w-[58%]">
               <span aria-hidden className="float-water__ripple" />
               <span aria-hidden className="float-water__ripple float-water__ripple--late" />
               <span aria-hidden className="float-water__shadow" />

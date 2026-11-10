@@ -5,6 +5,9 @@ import { useEffect } from "react";
 /**
  * Gắn class .is-revealed cho mọi phần tử [data-reveal] khi cuộn tới.
  * Theo dõi cả phần tử thêm vào sau (đổi bộ lọc album…) bằng MutationObserver.
+ *
+ * Phần tử đang thấy trên màn hình có thể bị gắn class trước khi khối của nó kịp hydrate (trang stream theo từng
+ * khối) → mọi phần tử [data-reveal] phải có `suppressHydrationWarning`, nếu không React báo className lệch.
  */
 export function RevealObserver() {
   useEffect(() => {

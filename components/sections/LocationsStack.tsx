@@ -42,53 +42,47 @@ export function LocationsStack({ locations, heading }: { locations: Location[]; 
           {locations.map((loc, i) => {
             const textTop = loc.mobileText !== "bottom";
             return (
-            <article
-              key={loc.key}
-              ref={(el) => {
-                cardRefs.current[i] = el;
-              }}
-              className="locations-card on-dark"
-              style={{ "--rise": i, "--back": 0, zIndex: i + 1 } as CSSProperties}
-            >
-              <Image
-                src={loc.image}
-                alt={loc.imageAlt}
-                fill
-                placeholder="blur"
-                sizes="(min-width: 1024px) 1000px, 92vw"
-                className="locations-card__img object-cover"
-                style={
-                  {
-                    "--pos": loc.imagePosition ?? "50% 50%",
-                    "--pos-m": loc.imagePositionMobile ?? loc.imagePosition ?? "50% 50%",
-                  } as CSSProperties
-                }
-              />
-              <span
-                aria-hidden
-                className={`absolute inset-0 from-ink/85 via-ink/25 via-50% to-transparent md:bg-gradient-to-t ${
-                  textTop ? "bg-gradient-to-b" : "bg-gradient-to-t"
-                }`}
-              />
-              <span aria-hidden className="locations-card__dim absolute inset-0 bg-ink" />
-              {/* Mobile: chữ mặc định ở trên thẻ (người trong ảnh thường ở giữa/dưới); khi ở dưới thì pr-16 chừa chỗ
-                  cho cụm nút Gọi/Zalo/Messenger cố định (F7). Desktop: chữ luôn ở dưới. */}
-              <div
-                className={`absolute inset-x-0 p-6 text-cream text-shadow-soft md:top-auto md:bottom-0 md:p-10 ${
-                  textTop ? "top-0" : "bottom-0 pr-16"
-                } ${
-                  loc.textSide === "right" ? "md:flex md:flex-col md:items-end md:text-right" : ""
-                }`}
+              <article
+                key={loc.key}
+                ref={(el) => {
+                  cardRefs.current[i] = el;
+                }}
+                className="locations-card on-dark"
+                style={{ "--rise": i, "--back": 0, zIndex: i + 1 } as CSSProperties}
               >
-                <h3 className="font-serif text-[34px] leading-[1.05] font-light md:text-[56px]">{loc.name}</h3>
-                <p className={`mt-3 max-w-[520px] text-[15px] leading-[1.65] text-cream/90 md:block md:text-[16px] ${textTop ? "" : "hidden"}`}>
-                  {nb(loc.description)}
-                </p>
-                <p className="mt-3 hidden max-w-[520px] text-[14px] leading-[1.6] text-champagne md:block">
-                  {nb(loc.itinerary)}
-                </p>
-              </div>
-            </article>
+                <Image
+                  src={loc.image}
+                  alt={loc.imageAlt}
+                  fill
+                  placeholder="blur"
+                  sizes="(min-width: 1024px) 1000px, 92vw"
+                  className="locations-card__img object-cover"
+                  style={
+                    {
+                      "--pos": loc.imagePosition ?? "50% 50%",
+                      "--pos-m": loc.imagePositionMobile ?? loc.imagePosition ?? "50% 50%",
+                    } as CSSProperties
+                  }
+                />
+                <span
+                  aria-hidden
+                  className={`absolute inset-0 from-ink/85 via-ink/25 via-50% to-transparent md:bg-gradient-to-t ${textTop ? "bg-gradient-to-b" : "bg-gradient-to-t"
+                    }`}
+                />
+                <span aria-hidden className="locations-card__dim absolute inset-0 bg-ink" />
+                {/* Mobile: chữ mặc định ở trên thẻ (người trong ảnh thường ở giữa/dưới); khi ở dưới thì pr-16 chừa chỗ
+                  cho cụm nút Gọi/Zalo/Messenger cố định (F7). Desktop: chữ luôn ở dưới. */}
+                <div
+                  className={`absolute inset-x-0 p-6 text-cream text-shadow-soft md:top-auto md:bottom-0 md:p-10 ${textTop ? "top-0" : "bottom-0 pr-16"
+                    } ${loc.textSide === "right" ? "md:flex md:flex-col md:items-end md:text-right" : ""
+                    }`}
+                >
+                  <h3 className="font-serif text-[34px] leading-[1.05] font-light md:text-[56px]">{loc.name}</h3>
+                  <p className={`mt-3 max-w-[520px] text-[15px] leading-[1.65] text-cream/90 md:block md:text-[16px] ${textTop ? "" : "hidden"}`}>
+                    {nb(loc.description)}
+                  </p>
+                </div>
+              </article>
             );
           })}
         </div>

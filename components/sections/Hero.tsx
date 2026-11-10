@@ -312,7 +312,7 @@ export function Hero() {
       id="top"
       aria-roledescription="carousel"
       aria-label="Ảnh nổi bật"
-      className="hero-bg on-dark relative isolate h-[100svh] min-h-[560px] w-full overflow-hidden pt-[76px] md:pt-[88px]"
+      className="hero-bg on-dark relative isolate h-[100svh] max-h-[960px] min-h-[560px] w-full overflow-hidden pt-[76px] md:pt-[88px]"
     >
       <h1 className="sr-only">
         {siteConfig.name} Huế — {siteConfig.slogan}

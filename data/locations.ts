@@ -63,11 +63,10 @@ export const locations: Location[] = [
       "Ánh sáng chuẩn chỉnh, tối giản, tập trung trọn vẹn vào thần thái hai bạn.",
     itinerary:
       "Gợi ý: phù hợp ngày mưa nắng thất thường, chủ động trọn thời gian.",
-    image: albumPhotos["studio-trang-tinh-khoi"][0],
-    imageAlt: "Cô dâu chú rể trong studio phông rèm trắng tinh khôi",
-    imagePosition: "50% 30%",
-    textSide: "right",
-    imagePositionMobile: "50% 0%",
+    image: albumPhotos["studio-trang-tinh-khoi"][2],
+    imageAlt: "Cô dâu váy cưới xoè rộng ngồi bên khung cửa rèm trắng trong studio",
+    imagePosition: "50% 28%",
+    imagePositionMobile: "50% 10%",
     mobileText: "bottom",
   },
 ];
