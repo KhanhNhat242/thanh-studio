@@ -1,0 +1,330 @@
+@layer theme, base, antd, components, utilities;
+
+@import "tailwindcss";
+
+/* ==========================================================================
+   Design tokens — Thanh Studio Wedding (xem docs/REQUIREMENTS.md mục 6)
+   Chỉ dùng màu qua các token này. Không dark mode.
+   ========================================================================== */
+@theme {
+  --color-cream: #fbf7f0;
+  --color-ivory: #fffdf9;
+  /* Champagne CHỈ dùng cho đường kẻ, icon trang trí, nền nút (chữ ink trên champagne = 5.74:1).
+     Chữ champagne trên nền kem chỉ đạt 2.08:1 → không dùng cho chữ trên nền sáng. */
+  --color-champagne: #c8a97e;
+  /* Champagne đậm: chữ/số liệu nhấn trên nền kem/ngà (4.63:1), nút chữ trắng (4.94:1),
+     colorPrimary của Ant Design ở /admin */
+  --color-champagne-deep: #8c6a3f;
+  /* Hồng phấn: nền section xen kẽ — trên nền này chữ luôn dùng ink */
+  --color-blush: #f2dcd7;
+  --color-ink: #3b302b;
+  /* Chữ phụ: 5.51:1 trên nền kem (bản cũ #8A7D74 chỉ 3.73:1) */
+  --color-muted: #6f625a;
+  --color-line: #efe8dc;
+  --color-error: #b4533c;
+
+  --font-serif: var(--font-cormorant), "Times New Roman", serif;
+  --font-sans: var(--font-be-vietnam), system-ui, sans-serif;
+
+  --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root {
+  --header-h: 72px;
+  /* Storytelling: khoảng thở lớn giữa các "chương" (section) */
+  --chapter-spacing: 8rem;
+  --reveal-duration: 600ms;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--header-h);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+/* Chặn tràn ngang (vd. phần tử data-reveal="left/right" đang dịch ra ngoài trước khi hiện)
+   – dùng clip thay vì hidden để không tạo vùng cuộn mới, không làm hỏng position: sticky */
+html,
+body {
+  overflow-x: clip;
+}
+
+* {
+  border-color: var(--color-line);
+}
+
+/* Không để rớt 1 chữ xuống dòng cuối: tiêu đề cân dòng, đoạn văn ngắt "đẹp".
+   (Kết hợp hàm nb() trong lib/text.ts để khoá 2 chữ cuối bằng khoảng trắng không ngắt.) */
+h1,
+h2,
+h3,
+h4,
+blockquote {
+  text-wrap: balance;
+}
+
+p,
+li,
+figcaption,
+label,
+dd {
+  text-wrap: pretty;
+}
+
+/* Cormorant mặc định dùng số kiểu old-style ("01" trông như "o1") → ép số thẳng hàng */
+.font-serif,
+h1,
+h2,
+h3,
+blockquote {
+  font-variant-numeric: lining-nums;
+}
+
+::selection {
+  background: var(--color-blush);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  /* Viền focus ≥ 3:1 trên nền sáng; vùng nền tối (.on-dark) dùng champagne sáng */
+  outline: 2px solid var(--color-champagne-deep);
+  outline-offset: 3px;
+}
+
+.on-dark :focus-visible {
+  outline-color: var(--color-champagne);
+}
+
+/* Nền section chuyển mềm: hồng phấn hoà dần vào nền kem/ngà ở 2 mép,
+   không cần đường kẻ cứng giữa các section */
+.bg-blush-fade {
+  background: linear-gradient(
+    to bottom,
+    var(--fade-from, var(--color-cream)) 0,
+    var(--color-blush) 160px,
+    var(--color-blush) calc(100% - 160px),
+    var(--fade-to, var(--color-cream)) 100%
+  );
+}
+
+/* Khoảng đệm dọc chuẩn của mỗi section ("chương"): 80px mobile → 128px desktop */
+@utility chapter {
+  padding-block: clamp(5rem, 9vw, var(--chapter-spacing));
+}
+
+/* Bóng đổ mềm theo tông ink — dùng thay cho rgba() rải rác trong component */
+@utility shadow-soft {
+  box-shadow: 0 24px 48px -24px color-mix(in srgb, var(--color-ink) 40%, transparent);
+}
+
+@utility shadow-float {
+  box-shadow: 0 8px 24px -12px color-mix(in srgb, var(--color-ink) 45%, transparent);
+}
+
+@utility text-shadow-soft {
+  text-shadow: 0 1px 14px color-mix(in srgb, var(--color-ink) 60%, transparent);
+}
+
+/* ==========================================================================
+   Editorial — drop cap & pull quote
+   ========================================================================== */
+.drop-cap::first-letter {
+  float: left;
+  margin: 0.06em 0.14em 0 0;
+  font-family: var(--font-serif);
+  font-size: 4.4em;
+  font-weight: 400;
+  line-height: 0.78;
+  color: var(--color-champagne-deep);
+}
+
+/* Ẩn thanh cuộn cho các dải trượt ngang */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ==========================================================================
+   Hero — Ken Burns
+   ========================================================================== */
+@keyframes ken-burns {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.09);
+  }
+}
+
+.ken-burns {
+  animation: ken-burns 8s ease-out forwards;
+}
+
+@keyframes hero-progress {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.hero-progress {
+  transform-origin: left center;
+  animation: hero-progress var(--slide-duration, 7000ms) linear forwards;
+}
+
+/* ==========================================================================
+   Reveal on scroll
+   ========================================================================== */
+[data-reveal] {
+  opacity: 0;
+  transition:
+    opacity var(--reveal-duration) ease,
+    transform var(--reveal-duration) cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-reveal]:not(.is-revealed) {
+  transition-duration: 0.35s;
+}
+
+[data-reveal='left'] {
+  transform: translateX(-56px);
+}
+
+[data-reveal='right'] {
+  transform: translateX(56px);
+}
+
+[data-reveal='up'] {
+  transform: translateY(40px);
+}
+
+[data-reveal='flip'] {
+  transform: perspective(900px) rotateX(-32deg) translateY(28px);
+  transform-origin: top center;
+}
+
+[data-reveal='grow-x'] {
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+[data-reveal='grow-c'] {
+  transform: scaleX(0);
+  transform-origin: center;
+}
+
+[data-reveal='blur'] {
+  transform: translateY(18px);
+  filter: blur(8px);
+  transition:
+    opacity var(--reveal-duration) ease,
+    transform var(--reveal-duration) cubic-bezier(0.22, 1, 0.36, 1),
+    filter var(--reveal-duration) ease;
+}
+
+[data-reveal].is-revealed {
+  opacity: 1;
+  transform: none;
+  filter: none;
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+/* Ảnh trong card: phóng to rồi "lắng" về đúng cỡ khi card hiện */
+[data-reveal] .reveal-zoom {
+  transform: scale(1.18);
+  transition: transform 1.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-reveal].is-revealed .reveal-zoom {
+  transform: scale(1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+@keyframes deco-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-10px) rotate(1.5deg);
+  }
+}
+
+.deco-float {
+  animation: deco-float 9s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+@keyframes lightbox-fade {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.lightbox-fade {
+  animation: lightbox-fade 0.3s ease-out;
+}
+
+@media (scripting: none) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+
+  [data-reveal] .reveal-zoom {
+    transform: none;
+    transition: none;
+  }
+
+  /* Tắt mọi hiệu ứng phóng ảnh khi hover */
+  .group:hover .hover-zoom,
+  .hover-zoom {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .deco-float,
+  .lightbox-fade,
+  .ken-burns {
+    animation: none;
+  }
+
+  .hero-progress {
+    animation: none;
+    transform: scaleX(1);
+  }
+}
