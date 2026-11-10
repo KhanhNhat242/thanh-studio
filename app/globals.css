@@ -154,35 +154,58 @@ blockquote {
 }
 
 /* ==========================================================================
-   Hero — Ken Burns
+   Hero (F1) — slider 5 thẻ ảnh, hiện 3 thẻ phủ đủ bề ngang, xếp cong phối cảnh
    ========================================================================== */
-@keyframes ken-burns {
-  from {
-    transform: scale(1);
-  }
-
-  to {
-    transform: scale(1.09);
-  }
+.hero-bg {
+  /* Nền tối ấm: ink + quầng champagne rất nhẹ ở giữa (đồng bộ footer, không đen tuyền) */
+  background:
+    radial-gradient(
+      ellipse 70% 60% at 50% 48%,
+      color-mix(in srgb, var(--color-champagne) 14%, var(--color-ink)) 0%,
+      var(--color-ink) 70%
+    );
 }
 
-.ken-burns {
-  animation: ken-burns 8s ease-out forwards;
+.hero-stage {
+  /* Bàn tay mở khi rê chuột, bàn tay nắm khi đang kéo */
+  cursor: grab;
+  perspective: 1600px;
+  container-type: inline-size;
 }
 
-@keyframes hero-progress {
-  from {
-    transform: scaleX(0);
-  }
-
-  to {
-    transform: scaleX(1);
-  }
+/*
+ * --off: vị trí liên tục so với tâm (-2.5..2.5, JS cập nhật mỗi khung hình) · --focus: 0..1 độ "ở giữa".
+ * 3 thẻ (-1, 0, 1) phủ đủ chiều ngang stage; thẻ ở |off| ≥ 1.5 nằm ngoài màn hình nên vòng lại không bị thấy.
+ */
+.hero-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: calc(100cqw / 3 - 12px);
+  transform: translate(-50%, -50%) translateX(calc(var(--off) * 100cqw / 3)) rotateY(calc(var(--off) * -26deg))
+    scale(calc(0.94 + 0.06 * var(--focus)));
+  transition: opacity 300ms ease;
+  will-change: transform;
 }
 
-.hero-progress {
-  transform-origin: left center;
-  animation: hero-progress var(--slide-duration, 7000ms) linear forwards;
+.hero-stage[data-dragging] {
+  cursor: grabbing;
+}
+
+.hero-stage .hero-card {
+  cursor: inherit;
+}
+
+.hero-card__shade {
+  opacity: calc(0.42 - 0.3 * var(--focus));
+}
+
+.hero-card:hover .hero-card__shade {
+  opacity: 0.08;
+}
+
+.hero-card__title {
+  opacity: var(--focus);
 }
 
 /* ==========================================================================
@@ -269,6 +292,201 @@ blockquote {
   transform-origin: bottom center;
 }
 
+/* ==========================================================================
+   Dịch vụ — thẻ xếp chồng, cuộn dọc để trượt ngang sang thẻ kế tiếp
+   ========================================================================== */
+.services-track {
+  position: relative;
+  height: calc(100svh + var(--steps) * var(--step) * 100svh);
+}
+
+.services-stage {
+  position: sticky;
+  top: 0;
+  display: flex;
+  height: 100svh;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.services-deck {
+  position: relative;
+  min-height: 0;
+  flex: 1;
+  margin-block: 24px;
+  /* khoảng cách giữa các thẻ tính theo bề ngang deck → 5 thẻ trải gần kín màn hình rộng */
+  container-type: inline-size;
+}
+
+/* --off: vị trí so với thẻ giữa · --depth: |off| — thẻ càng xa càng nhỏ, tối và mờ */
+.services-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: min(100%, 700px);
+  max-width: 80vw;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 4px;
+  background: var(--color-ink);
+  box-shadow: 0 30px 60px -30px color-mix(in srgb, var(--color-ink) 55%, transparent);
+  /* Bước ngang tối đa 62% bề rộng thẻ → thẻ chính luôn đè lên ~1/3 mỗi thẻ phụ */
+  transform: translate(-50%, -50%) translateX(calc(var(--off) * min(62%, 21cqw)))
+    scale(calc(1 - 0.12 * min(var(--depth), 2)));
+  opacity: calc(2.6 - var(--depth));
+  will-change: transform;
+}
+
+.services-card__dim {
+  opacity: calc(min(var(--depth), 1.5) * 0.3);
+}
+
+.services-card__body {
+  opacity: calc(1 - var(--depth) * 1.6);
+}
+
+/* ==========================================================================
+   Bối cảnh — thẻ ngang xếp chồng, cuộn để thẻ kế tiếp trượt lên phủ thẻ trước
+   ========================================================================== */
+.locations-track {
+  /* sân khấu bám dính: 1 màn hình + quãng cuộn cho mỗi thẻ */
+  position: relative;
+  height: calc(100svh + var(--steps) * var(--step) * 100svh);
+}
+
+.locations-stage {
+  position: sticky;
+  top: 0;
+  display: flex;
+  height: 100svh;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Khung carousel chiếm trọn phần còn lại của màn hình (dưới tiêu đề); chồng thẻ căn giữa theo chiều dọc */
+.locations-deck {
+  position: relative;
+  min-height: 0;
+  flex: 1;
+}
+
+/* --rise: >0 thẻ sắp tới (ở dưới, trượt lên) · --back: số bậc đã lùi ra sau (nhỏ dần, ló lên trên) */
+.locations-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(1000px, 92vw);
+  /* cao trọn màn hình: chừa 100px cho header + 84px dải thẻ phía sau ló lên + 24px đáy */
+  height: calc(100% - 208px);
+  overflow: hidden;
+  border-radius: 6px;
+  background: var(--color-ink);
+  box-shadow: 0 -18px 40px -24px color-mix(in srgb, var(--color-ink) 45%, transparent);
+  transform-origin: 50% 0%;
+  /* -50% + 80px: khối (84px dải thẻ phía sau + thẻ) nằm từ 100px tới cách đáy 24px */
+  transform: translateX(-50%) translateY(calc(-50% + 80px +var(--rise) * 115vh - min(var(--back), 3) * 28px))
+    scale(calc(1 - 0.06 * min(var(--back), 3)));
+  opacity: calc(3.6 - var(--back));
+  will-change: transform;
+}
+
+.locations-card__dim {
+  opacity: calc(min(var(--back), 3) * 0.2);
+}
+
+/* ==========================================================================
+   Ảnh nổi bồng bềnh trên mặt nước (About)
+   ========================================================================== */
+.float-water {
+  --float-period: 7s;
+}
+
+.float-water__item {
+  animation: water-bob var(--float-period) ease-in-out infinite;
+  transform-origin: 50% 100%;
+  will-change: transform;
+}
+
+@keyframes water-bob {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(calc(var(--float-tilt, 1) * -0.6deg));
+  }
+
+  25% {
+    transform: translate3d(3px, -7px, 0) rotate(calc(var(--float-tilt, 1) * 0.5deg));
+  }
+
+  50% {
+    transform: translate3d(0, -14px, 0) rotate(calc(var(--float-tilt, 1) * 1deg));
+  }
+
+  75% {
+    transform: translate3d(-3px, -6px, 0) rotate(calc(var(--float-tilt, 1) * -0.2deg));
+  }
+}
+
+/* Bóng nước: nhỏ & nhạt khi ảnh nổi lên cao, to & đậm khi ảnh hạ xuống */
+.float-water__shadow {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: -26px;
+  height: 22px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--color-ink) 28%, transparent), transparent);
+  filter: blur(4px);
+  animation: water-shadow var(--float-period) ease-in-out infinite;
+}
+
+@keyframes water-shadow {
+  0%,
+  100% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scaleX(0.84);
+    opacity: 0.55;
+  }
+}
+
+/* Gợn sóng champagne loang ra từ chân ảnh */
+.float-water__ripple {
+  position: absolute;
+  left: 50%;
+  bottom: -24px;
+  width: 90%;
+  height: 26px;
+  border: 1px solid var(--color-champagne);
+  border-radius: 50%;
+  opacity: 0;
+  transform: translateX(-50%) scale(0.6);
+  animation: water-ripple var(--float-period) ease-out infinite;
+  pointer-events: none;
+}
+
+.float-water__ripple--late {
+  animation-delay: calc(var(--float-period) / 2);
+}
+
+@keyframes water-ripple {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.6);
+  }
+
+  15% {
+    opacity: 0.7;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) scale(1.35);
+  }
+}
+
 @keyframes lightbox-fade {
   from {
     opacity: 0;
@@ -319,12 +537,14 @@ blockquote {
 
   .deco-float,
   .lightbox-fade,
-  .ken-burns {
+  .float-water__item,
+  .float-water__shadow,
+  .float-water__ripple {
     animation: none;
   }
 
-  .hero-progress {
-    animation: none;
-    transform: scaleX(1);
+  .hero-card,
+  .hero-card * {
+    transition: none !important;
   }
 }

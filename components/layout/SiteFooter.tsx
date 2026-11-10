@@ -5,10 +5,10 @@ import { Container } from "@/components/ui/Container";
 import { siteConfig } from "@/lib/site-config";
 
 const quickLinks = [
-  { label: "Trang chủ", href: "/" },
-  { label: "Album", href: "/album" },
-  { label: "Bảng giá", href: "/#bang-gia" },
-  { label: "Đặt lịch", href: "/#dat-lich" },
+  { label: "Câu chuyện", href: "#cau-chuyen" },
+  { label: "Album", href: "#album" },
+  { label: "Bảng giá", href: "#bang-gia" },
+  { label: "Đặt lịch", href: "#dat-lich" },
 ];
 
 export function SiteFooter() {

@@ -10,7 +10,7 @@ export const locationNames: Record<LocationKey, string> = {
 
 export type LocationFilter = LocationKey | "all";
 
-/** Bộ lọc album theo bối cảnh (F2) — dùng chung cho trang chủ và /album */
+/** Bộ lọc album theo bối cảnh (F2) */
 export const locationFilters: { key: LocationFilter; label: string }[] = [
   { key: "all", label: "Tất cả" },
   { key: "hue", label: "Huế" },

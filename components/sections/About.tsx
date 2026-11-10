@@ -21,14 +21,10 @@ export function About() {
                 className="reveal-zoom object-cover"
               />
             </div>
-            <figcaption className="mt-3 text-[14px] text-muted">
-              Hành lang khách sạn cổ điển bên sông Hương, Huế
-            </figcaption>
           </figure>
 
           {/* Cột chữ bên phải, lệch xuống như trang tạp chí */}
           <div data-reveal="up" className="lg:col-span-6 lg:pt-16 xl:col-span-5 xl:pt-24">
-            <p className="text-[14px] font-medium text-champagne-deep">Câu chuyện</p>
             <h2 className="mt-4 font-serif text-[38px] leading-[1.08] font-light tracking-[-0.01em] sm:text-[46px] md:text-[56px]">
               {nb("Chụp chậm, để ảnh kể đúng chuyện của hai bạn")}
             </h2>
@@ -40,25 +36,22 @@ export function About() {
                 "Tại Thanh Studio, chúng mình chọn cách chụp chậm rãi, lắng nghe câu chuyện riêng của từng cặp đôi để mỗi bộ ảnh mang đúng câu chuyện của đôi bạn — tự nhiên, ấm áp và đong đầy tình cảm qua năm tháng.",
               )}
             </p>
-            <p
-              className="mt-5 text-[16px] leading-[1.85] text-ink/85 md:text-[17px]"
-            >
-              {nb(
-                "Từ buổi chụp pre-wedding giữa cố đô Huế hay vịnh Lăng Cô, lớp trang điểm, bộ váy cưới cho tới khoảnh khắc trong ngày trọng đại, Thanh Studio đồng hành trọn vẹn cùng hai bạn.",
-              )}
-            </p>
 
-            <div
-              className="relative mt-10 ml-auto aspect-[3/4] w-[62%] overflow-hidden sm:w-[48%] lg:w-[58%]"
-            >
-              <Image
-                src={albumPhotos["studio-trang-tinh-khoi"][1]}
-                alt="Chân dung cận mặt cô dâu chú rể với lớp trang điểm trong trẻo"
-                fill
-                placeholder="blur"
-                sizes="(min-width: 1024px) 24vw, 50vw"
-                className="reveal-zoom object-cover object-top"
-              />
+            {/* Ảnh "nổi bồng bềnh trên mặt nước": nhấp nhô + lắc nhẹ, bóng nước & gợn sóng bên dưới */}
+            <div className="float-water relative mt-10 mb-12 ml-auto w-[62%] sm:w-[48%] lg:w-[58%]">
+              <span aria-hidden className="float-water__ripple" />
+              <span aria-hidden className="float-water__ripple float-water__ripple--late" />
+              <span aria-hidden className="float-water__shadow" />
+              <div className="float-water__item relative aspect-[3/4] overflow-hidden">
+                <Image
+                  src={albumPhotos["studio-trang-tinh-khoi"][1]}
+                  alt="Chân dung cận mặt cô dâu chú rể với lớp trang điểm trong trẻo"
+                  fill
+                  placeholder="blur"
+                  sizes="(min-width: 1024px) 24vw, 50vw"
+                  className="reveal-zoom object-cover object-top"
+                />
+              </div>
             </div>
           </div>
         </div>

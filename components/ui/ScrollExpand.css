@@ -1,0 +1,70 @@
+/*
+ * ScrollExpand — chuyển thể từ React Bits (https://reactbits.dev/animations/scroll-expand, bản JS-CSS).
+ * Thay đổi: chỉ dùng window scroll; ảnh nằm ĐÈ lên nội dung section và mờ dần để lộ nội dung tại chỗ;
+ * màu qua token. Chiều cao theo 100svh để khớp chiều cao sân khấu.
+ */
+.scroll-expand {
+  position: relative;
+  width: 100%;
+  background: var(--se-bg, var(--color-ivory));
+  --se-scroll: 1.2;
+  --se-fade: 0.6;
+}
+
+/* Track: 1 màn hình (sân khấu bám dính) + quãng mở khung */
+.scroll-expand__track {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  height: calc((1 + var(--se-scroll)) * 100svh);
+  pointer-events: none;
+}
+
+.scroll-expand__stage {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100svh;
+  overflow: hidden;
+  background: var(--se-bg, var(--color-ivory));
+  will-change: opacity;
+}
+
+.scroll-expand__frame {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(21% 29% 21% 29% round 4px);
+  will-change: clip-path;
+}
+
+.scroll-expand__media {
+  object-fit: cover;
+  will-change: transform;
+  transform-origin: center;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/*
+ * Nội dung section kéo lên nằm ngay dưới sân khấu (margin âm 1 màn hình) → bị sân khấu che;
+ * khi sân khấu mờ dần thì nội dung lộ ra tại chỗ. padding-top = quãng mờ, để lúc mờ xong
+ * phần đầu nội dung vừa tới mép trên màn hình.
+ */
+.scroll-expand__content {
+  position: relative;
+  margin-top: -100svh;
+  /* +0.1 màn hình: khi nhảy anchor tới nội dung, ảnh đã mờ hẳn */
+  padding-top: calc((var(--se-fade) + 0.1) * 100svh);
+}
+
+/* Người dùng bật giảm chuyển động: bỏ hẳn đoạn ảnh, hiện nội dung bình thường */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-expand__track {
+    display: none;
+  }
+
+  .scroll-expand__content {
+    margin-top: 0;
+    padding-top: 0;
+  }
+}

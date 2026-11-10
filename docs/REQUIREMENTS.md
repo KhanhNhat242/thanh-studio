@@ -114,11 +114,14 @@ Bộ token chuẩn hoá `[DIỄN GIẢI]` (khai báo trong `app/globals.css`, kh
 |---|---|---|
 | Khung chính toàn site | Editorial Grid / Magazine | Lưới 12 cột bất đối xứng, đánh số "chương" (01–07), drop cap cho đoạn mở đầu câu chuyện, pull quote cho “Làm cho đúng, cho đủ tình”. Tiêu đề serif (Cormorant Garamond), thân bài sans (Be Vietnam Pro). Không dùng cho bảng giá. |
 | Tiêu đề section | Exaggerated Minimalism (chỉ mượn) | Khoảng trắng lớn (`chapter` ≈ 8rem), tiêu đề serif cỡ lớn nét mảnh (300). Không áp cho form, bảng giá. |
-| Hero (F1) | Hero-Centric | 100svh, chỉ gradient nhẹ ở đáy để ảnh giữ tông sáng; không hiệu ứng phát sáng/nhấp nháy; `prefers-reduced-motion` → dừng tự chuyển. |
-| `/album/[slug]` | Storytelling-Driven | Kể theo chương: Bối cảnh → Khoảnh khắc → Viết tiếp câu chuyện (đổi thành "Cảm nhận" khi có cảm nhận thật của cặp đôi). Reveal 600ms, không parallax. |
-| Bối cảnh chụp | Bento Box Grid | Huế ô lớn nhất (2×2), Lăng Cô & Đà Nẵng 1×1, Phim trường dải ngang; bo góc ≤ 4px, không bóng đổ. |
+| Hero (F1) | Slider thẻ ảnh phối cảnh → phóng to | 100svh nền tối ấm (token `ink`, vignette pha champagne rất nhẹ — đồng bộ footer), header trong suốt hoà vào hero. 5 thẻ, mỗi lần hiện 3 thẻ phủ đủ chiều ngang; thẻ hai bên nghiêng phối cảnh, tên bối cảnh viết dọc trên thẻ giữa. Dãy thẻ chạy ngang liên tục, vô tận (phải → trái), không có nút điều hướng; rê chuột thì dừng, con trỏ bàn tay để kéo trái/phải (có quán tính). Bấm thẻ → ảnh phóng to phủ kín section kèm tiêu đề, mô tả, slogan, CTA. Không phát sáng/nhấp nháy; `prefers-reduced-motion` → không tự chạy, đổi trạng thái tức thì. |
+| Album (F2, trên trang chủ) | Vòng ảnh 3D (React Bits CircularCarousel, đã chuyển thể) + lightbox | Ảnh bìa các album theo cặp đôi xếp thành vòng cylinder, tự xoay, kéo để xoay, lọc theo nơi chụp; bấm album bên cạnh → xoay ra giữa, bấm album ở giữa / Enter / nút "Xem album" → lightbox trọn bộ ảnh. Tab theo nơi chụp (Huế / Lăng Cô / Đà Nẵng / Phim trường): ảnh xòe như quạt (React Bits BounceCards) — ≥ 2 album: ảnh bìa từng album, 1 album: 5 ảnh của album đó; rê chuột/chạm để lật, bấm → lightbox. |
+| Bối cảnh chụp | Thẻ ngang xếp chồng theo cuộn | Tiêu đề đứng trước; section bám dính, chồng thẻ cao trọn màn hình; thẻ đang xem nằm trước, thẻ đã xem lùi ra sau (nhỏ dần, ló lên trên); cuộn tới đâu thẻ kế tiếp (Huế → Lăng Cô → Đà Nẵng → Phim trường) trượt từ dưới lên tới đó. |
+| Câu chuyện (About) | Editorial Grid + ảnh "nổi trên mặt nước" | Ảnh chân dung nhỏ nhấp nhô, lắc nhẹ, bóng nước và gợn sóng champagne bên dưới; tắt khi `prefers-reduced-motion`. |
+| Dịch vụ | Thẻ xếp chồng, cuộn ngang theo cuộn dọc | Section bám dính; thẻ giữa lớn ở trước, hai bên lùi sau; cuộn dọc tới đâu dãy thẻ trượt ngang (phải → trái) tới đó để lần lượt xem đủ 5 dịch vụ (đúng thứ tự mục 4). |
+| Bảng giá (F3) | Thẻ kim loại phản quang (React Bits ReflectiveCard, đã chuyển thể) | Thẻ nghiêng theo chuột + vệt sáng; gói thường ánh ngà, gói nổi bật ánh vàng hồng (blush) — không dùng champagne làm nền vì chữ ink chỉ ~3.9:1. Không dùng webcam/video. |
 | Form đặt lịch (F4) | Conversion-Optimized | Ô nhập cao 48px, viền ≥ 3:1, focus rõ, form ≤ 600px, nhãn "Bắt buộc" cho 3 trường; không dùng màu khẩn cấp/đếm ngược. |
-| Cảm nhận khách (F5) | Social Proof (dạng pull quote) | Trích dẫn kiểu tạp chí, không thẻ có sao; con số duy nhất: "100% khách đề xuất trên Facebook". |
+| Cảm nhận khách (F5) | Social Proof — 1 pull quote + thẻ cảm nhận | Trích dẫn nổi kiểu tạp chí + thẻ: dấu ngoặc kép lớn, tên + dòng phụ, ô đại diện tròn (biểu tượng, chờ ảnh thật), mảng hồng phấn lệch sau. Hai thẻ nổi bồng bềnh trên mặt nước (cùng hệ `.float-water` với About, lệch nhịp, tắt khi `prefers-reduced-motion`). **Không** hàng sao / điểm đánh giá; con số duy nhất: "100% khách đề xuất trên Facebook". |
 | `/admin` (F8) | Minimalism & Swiss + Data-Dense Dashboard | Giữ Ant Design mặc định, chỉ chỉnh `colorPrimary` = `#8C6A3F` và font qua `ConfigProvider`; không mang chất editorial vào admin. |
 
 ---
@@ -127,8 +130,8 @@ Bộ token chuẩn hoá `[DIỄN GIẢI]` (khai báo trong `app/globals.css`, kh
 
 | # | Chức năng (nguyên văn ý) | Đặc tả triển khai `[DIỄN GIẢI]` |
 |---|---|---|
-| F1 | **Banner trình chiếu ảnh** | Hero slideshow ảnh tràn màn hình (100svh), tự chuyển, có tagline + CTA "Đặt lịch tư vấn". Tôn trọng `prefers-reduced-motion`. |
-| F2 | **Album theo bối cảnh / cặp đôi (lightbox)** | Lọc theo bối cảnh (Huế, Lăng Cô, Đà Nẵng, Phim trường) và theo cặp đôi; click mở lightbox: phóng to, next/prev, phím ← → Esc, vuốt trên mobile. |
+| F1 | **Banner trình chiếu ảnh** | (Đã chốt thay slideshow cũ.) Hero 100svh **nền tối ấm** (ink), header trong suốt hoà vào hero. **5 thẻ ảnh**, mỗi lần hiện **3 thẻ** tổng chiều ngang bằng màn hình, xếp cong phối cảnh; dãy thẻ **chạy ngang liên tục vô tận từ phải sang trái** (không có nút điều hướng; dừng khi rê chuột/focus; con trỏ bàn tay — nắm & kéo trái/phải theo chuột/ngón tay, thả ra trôi theo quán tính; kéo xong không tính là bấm). Bấm một thẻ → ảnh phóng to phủ kín section, hiện tiêu đề + mô tả của thẻ, slogan “Làm cho đúng, cho đủ tình” và CTA "Đặt lịch tư vấn"; ở trạng thái phóng to **không tự chuyển**, có nút ảnh trước/sau, nút đóng, phím ← → Esc. Tiêu đề h1 của trang luôn có (ẩn trực quan ở trạng thái thẻ). Tôn trọng `prefers-reduced-motion`. |
+| F2 | **Album theo bối cảnh / cặp đôi (lightbox)** | Nằm ngay trên trang chủ (section `#album`), **không có trang riêng**. Hiển thị toàn bộ album theo cặp đôi, lọc theo bối cảnh (Huế, Lăng Cô, Đà Nẵng, Phim trường); bấm một album → mở lightbox xem trọn bộ ảnh của cặp đôi đó: phóng to, next/prev, phím ← → Esc, vuốt trên mobile. |
 | F3 | **Bảng giá gói chụp và combo** | Card các gói (pre-wedding, phóng sự cưới, make up, thuê váy, combo trọn gói). **Giá chưa có** → xem mục 9. |
 | F4 | **Form đặt lịch tư vấn / giữ chỗ** — trường bắt buộc: **ngày cưới, gói, SĐT** | Trường: Họ tên, **SĐT (bắt buộc, validate SĐT VN)**, **Ngày cưới (bắt buộc, date)**, **Gói quan tâm (bắt buộc, select từ danh sách gói)**, Khu vực (Huế / Đà Nẵng), Ghi chú. Báo thành công rõ ràng; có fallback "Hoặc nhắn Zalo ngay". |
 | F5 | **Cảm nhận khách hàng** | Slider/grid testimonial (tên cặp đôi, trích dẫn, ảnh). Nội dung thật lấy từ Facebook — xem mục 9. |
@@ -137,8 +140,8 @@ Bộ token chuẩn hoá `[DIỄN GIẢI]` (khai báo trong `app/globals.css`, kh
 | F8 | **Trang quản trị: album, gói giá, lịch đặt** | Route `/admin`: CRUD album (ảnh, bối cảnh, cặp đôi), CRUD gói giá, danh sách lịch đặt từ form F4 (xem, đổi trạng thái: Mới / Đã liên hệ / Đã chốt / Huỷ). Dùng Ant Design cho UI admin. |
 
 ### Cấu trúc trang đề xuất `[DIỄN GIẢI]`
-Trang chủ (one-page, có anchor): Header → Hero slideshow (F1) → Giới thiệu & câu chuyện "Làm cho đúng, cho đủ tình" → Dịch vụ (5 mục) → Album nổi bật (F2) → Bảng giá (F3) → Bối cảnh chụp (Huế / Lăng Cô / Đà Nẵng / Phim trường) → Cảm nhận khách hàng (F5) → Form đặt lịch (F4) → Bản đồ & liên hệ (F6) → Footer.
-Trang phụ: `/album` (toàn bộ album + lọc), `/album/[slug]` (album theo cặp đôi), `/admin` (F8).
+Trang chủ (one-page, có anchor): Header → Hero slider 5 thẻ ảnh phóng to (F1) → Giới thiệu & câu chuyện "Làm cho đúng, cho đủ tình" → Dịch vụ (5 mục) → Album nổi bật (F2) → Bảng giá (F3) → Bối cảnh chụp (Huế / Lăng Cô / Đà Nẵng / Phim trường) → Cảm nhận khách hàng (F5) → Form đặt lịch (F4) → Bản đồ & liên hệ (F6) → Footer.
+Toàn bộ nội dung public nằm trên **một trang duy nhất** (đã chốt — bỏ các trang `/album`, `/album/[slug]`; album từng cặp đôi xem bằng lightbox trong section `#album`). Trang riêng duy nhất: `/admin` (F8).
 
 ---
 

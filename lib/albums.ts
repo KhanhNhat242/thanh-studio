@@ -1,6 +1,6 @@
-import { albums, featuredPicks } from "@/data/albums";
-import { locationNames, locations } from "@/data/locations";
-import type { Album, AlbumPhoto, Location, LocationKey } from "@/types/content";
+import { albums } from "@/data/albums";
+import { locationNames } from "@/data/locations";
+import type { Album, AlbumCard, AlbumPhoto } from "@/types/content";
 
 /**
  * Service layer cho album — UI chỉ gọi các hàm ở đây.
@@ -8,14 +8,6 @@ import type { Album, AlbumPhoto, Location, LocationKey } from "@/types/content";
  */
 export function getAlbums(): Album[] {
   return albums;
-}
-
-export function getAlbum(slug: string): Album | undefined {
-  return albums.find((a) => a.slug === slug);
-}
-
-export function getLocation(key: LocationKey): Location | undefined {
-  return locations.find((l) => l.key === key);
 }
 
 export function getAlbumCover(album: Album) {
@@ -32,28 +24,14 @@ export function toAlbumPhotos(album: Album): AlbumPhoto[] {
   }));
 }
 
-const FEATURED_LIMIT = 8;
-
-/** Ảnh nổi bật cho trang chủ, theo bộ lọc bối cảnh */
-export function getFeaturedPhotos(location: LocationKey | "all"): AlbumPhoto[] {
-  if (location === "all") {
-    return featuredPicks.flatMap(([slug, index]) => {
-      const album = getAlbum(slug);
-      return album ? [toAlbumPhotos(album)[index]] : [];
-    });
-  }
-  return albums
-    .filter((a) => a.location === location)
-    .flatMap(toAlbumPhotos)
-    .slice(0, FEATURED_LIMIT);
-}
-
-export function getAllFeaturedGroups(): Record<LocationKey | "all", AlbumPhoto[]> {
-  return {
-    all: getFeaturedPhotos("all"),
-    hue: getFeaturedPhotos("hue"),
-    "lang-co": getFeaturedPhotos("lang-co"),
-    "da-nang": getFeaturedPhotos("da-nang"),
-    "phim-truong": getFeaturedPhotos("phim-truong"),
-  };
+/** Dữ liệu cho section Album trên trang chủ: mỗi thẻ = 1 cặp đôi, kèm toàn bộ ảnh để mở lightbox (F2). */
+export function getAlbumCards(): AlbumCard[] {
+  return albums.map((a) => ({
+    slug: a.slug,
+    title: a.title,
+    summary: a.summary,
+    location: a.location,
+    cover: getAlbumCover(a),
+    photos: toAlbumPhotos(a),
+  }));
 }

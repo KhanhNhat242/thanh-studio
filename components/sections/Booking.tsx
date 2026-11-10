@@ -1,6 +1,7 @@
 import { Container } from "@/components/ui/Container";
 import { ClockIcon, MailIcon, MapIcon, PhoneIcon, PinIcon } from "@/components/ui/Icons";
 import { BookingForm } from "@/components/sections/BookingForm";
+import { revealDelay } from "@/lib/reveal";
 import { siteConfig } from "@/lib/site-config";
 import { nb } from "@/lib/text";
 
@@ -13,12 +14,17 @@ export function Booking() {
       <Container>
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-10">
           {/* Cột trái: tiêu đề + liên hệ + bản đồ */}
-          <div data-reveal="up" className="lg:col-span-5">
-            <p className="text-[14px] font-medium text-champagne-deep">Liên hệ</p>
-            <h2 className="mt-4 font-serif text-[38px] leading-[1.08] font-light tracking-[-0.01em] sm:text-[46px] md:text-[56px]">
-              {nb("Đặt lịch tư vấn & giữ chỗ")}
+          <div className="lg:col-span-5">
+            <h2
+              data-reveal="up"
+              style={revealDelay(80)}
+              className="mt-6 font-serif text-[40px] leading-[1.04] font-light tracking-[-0.01em] sm:text-[48px] md:text-[60px]"
+            >
+              {nb("Đặt Lịch Tư Vấn & Giữ Chỗ")}
             </h2>
             <p
+              data-reveal="up"
+              style={revealDelay(160)}
               className="mt-6 max-w-[460px] text-[16px] leading-[1.8] text-ink/80 md:text-[17px]"
             >
               {nb(
@@ -26,7 +32,7 @@ export function Booking() {
               )}
             </p>
 
-            <ul className="mt-9 space-y-5 text-[15px]">
+            <ul data-reveal="up" style={revealDelay(200)} className="mt-9 space-y-5 text-[15px]">
               <li className="flex gap-4">
                 <PinIcon className="mt-0.5 size-5 shrink-0 text-champagne-deep" />
                 <div>
@@ -62,7 +68,7 @@ export function Booking() {
               </li>
             </ul>
 
-            <div className="mt-9">
+            <div data-reveal="up" style={revealDelay(240)} className="mt-9">
               <div className="relative aspect-[16/10] overflow-hidden rounded-sm bg-cream">
                 <iframe
                   title={`Bản đồ ${hue.name}`}
@@ -76,7 +82,7 @@ export function Booking() {
                 href={hue.mapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-3 inline-flex min-h-11 items-center gap-2 text-[15px] font-medium text-ink underline decoration-champagne underline-offset-[6px] hover:text-champagne-deep"
+                className="mt-4 inline-flex min-h-11 items-center gap-2 text-[12px] font-medium tracking-[0.18em] text-ink uppercase hover:text-champagne-deep"
               >
                 <PinIcon className="size-4 text-champagne-deep" />
                 Chỉ đường tới studio
@@ -88,6 +94,7 @@ export function Booking() {
           <div
             id="booking-form"
             data-reveal="up"
+            style={revealDelay(120)}
             className="w-full max-w-[600px] self-start justify-self-center border border-line bg-cream p-6 sm:p-8 md:p-10 lg:sticky lg:top-28 lg:col-span-6 lg:col-start-7 lg:justify-self-end"
           >
             <p className="font-serif text-[30px] leading-tight font-light md:text-[34px]">

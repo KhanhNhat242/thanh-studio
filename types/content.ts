@@ -54,3 +54,13 @@ export interface AlbumPhoto {
   albumTitle: string;
   location: LocationKey;
 }
+
+/** Thẻ album theo cặp đôi trên trang chủ — bấm vào mở lightbox với toàn bộ `photos` */
+export interface AlbumCard {
+  slug: string;
+  title: string;
+  summary: string;
+  location: LocationKey;
+  cover: StaticImageData;
+  photos: AlbumPhoto[];
+}

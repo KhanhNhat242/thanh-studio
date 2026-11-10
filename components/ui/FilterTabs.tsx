@@ -11,7 +11,7 @@ export function FilterTabs({ value, onChange }: FilterTabsProps) {
     <div
       role="tablist"
       aria-label="Lọc theo bối cảnh"
-      className="no-scrollbar -mx-5 flex gap-1 overflow-x-auto border-b border-line px-5 sm:mx-0 sm:gap-4 sm:px-0"
+      className="no-scrollbar -mx-5 flex justify-center-safe gap-1 overflow-x-auto border-b border-line px-5 sm:mx-0 sm:gap-4 sm:px-0"
     >
       {locationFilters.map((f) => {
         const active = value === f.key;

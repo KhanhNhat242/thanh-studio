@@ -1,0 +1,52 @@
+/*
+ * BounceCards — chuyển thể từ React Bits (https://reactbits.dev/components/bounce-cards, bản JS-CSS).
+ * Màu viền / bóng qua token của dự án.
+ */
+.bounce-cards {
+  position: relative;
+  max-width: 100%;
+  touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.bounce-cards__card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--bounce-cards-size);
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border: var(--bounce-cards-border) solid var(--color-ivory);
+  border-radius: var(--bounce-cards-radius);
+  background: var(--color-ivory);
+  box-shadow:
+    0 1px 2px color-mix(in srgb, var(--color-ink) 12%, transparent),
+    0 10px 28px -6px color-mix(in srgb, var(--color-ink) 32%, transparent);
+  transform: translate(-50%, -50%) scale(0);
+  transition: box-shadow 0.3s ease;
+  will-change: transform;
+}
+
+.bounce-cards__card[data-active] {
+  box-shadow:
+    0 2px 4px color-mix(in srgb, var(--color-ink) 14%, transparent),
+    0 22px 44px -10px color-mix(in srgb, var(--color-ink) 42%, transparent);
+}
+
+.bounce-cards__card--clickable {
+  cursor: pointer;
+}
+
+.bounce-cards__card--clickable:focus-visible {
+  outline: 2px solid var(--color-champagne-deep);
+  outline-offset: 3px;
+}
+
+.bounce-cards__card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+}

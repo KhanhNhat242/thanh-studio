@@ -9,11 +9,9 @@ import { homeNav, siteConfig } from "@/lib/site-config";
 interface SiteHeaderProps {
   /** overlay: trong suốt trên Hero, chuyển nền kem khi cuộn · solid: luôn nền kem */
   variant?: "overlay" | "solid";
-  /** Tiền tố cho link anchor khi không ở trang chủ ("/") */
-  basePath?: string;
 }
 
-export function SiteHeader({ variant = "overlay", basePath = "" }: SiteHeaderProps) {
+export function SiteHeader({ variant = "overlay" }: SiteHeaderProps) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -48,7 +46,7 @@ export function SiteHeader({ variant = "overlay", basePath = "" }: SiteHeaderPro
         }`}
       >
         <div className="mx-auto flex h-full max-w-[1320px] items-center justify-between px-5 md:px-8 xl:px-10">
-          <Link href={basePath || "#top"} aria-label={`${siteConfig.name} — Trang chủ`}>
+          <Link href="#top" aria-label={`${siteConfig.name} — Trang chủ`}>
             <Logo tone={tone} />
           </Link>
 
@@ -57,7 +55,7 @@ export function SiteHeader({ variant = "overlay", basePath = "" }: SiteHeaderPro
               {homeNav.map((item) => (
                 <li key={item.href}>
                   <Link
-                    href={`${basePath}${item.href}`}
+                    href={item.href}
                     className={`group relative py-2 text-[13px] tracking-[0.08em] transition-colors ${
                       solid ? "text-ink/80 hover:text-ink" : "text-cream/90 hover:text-cream"
                     }`}
@@ -84,7 +82,7 @@ export function SiteHeader({ variant = "overlay", basePath = "" }: SiteHeaderPro
               {siteConfig.phoneDisplay}
             </a>
             <Link
-              href={`${basePath}#dat-lich`}
+              href="#dat-lich"
               className={`hidden min-h-11 items-center px-5 text-[12px] font-medium tracking-[0.14em] uppercase transition-colors duration-300 md:inline-flex ${
                 solid
                   ? "bg-champagne text-ink hover:bg-ink hover:text-cream"
@@ -139,7 +137,7 @@ export function SiteHeader({ variant = "overlay", basePath = "" }: SiteHeaderPro
                 style={{ transitionDelay: open ? `${120 + i * 60}ms` : "0ms" }}
               >
                 <Link
-                  href={`${basePath}${item.href}`}
+                  href={item.href}
                   onClick={() => setOpen(false)}
                   className="block py-2.5 font-serif text-[36px] leading-tight font-light text-ink"
                 >
@@ -151,7 +149,7 @@ export function SiteHeader({ variant = "overlay", basePath = "" }: SiteHeaderPro
         </nav>
         <div className="border-t border-line px-8 py-7">
           <Link
-            href={`${basePath}#dat-lich`}
+            href="#dat-lich"
             onClick={() => setOpen(false)}
             className="flex min-h-12 w-full items-center justify-center bg-champagne text-[13px] font-medium tracking-[0.14em] text-ink uppercase"
           >

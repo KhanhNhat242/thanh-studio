@@ -89,15 +89,3 @@ export const albums: Album[] = [
     coverIndex: 0,
   },
 ];
-
-/** Ảnh nổi bật trang chủ khi chọn "Tất cả" — [slug, vị trí ảnh trong album] */
-export const featuredPicks: [string, number][] = [
-  ["may-nui-lang-co", 2],
-  ["ao-dai-do-lang-tam", 2],
-  ["song-huong-khach-san-co-dien", 2],
-  ["binh-minh-tren-bien", 0],
-  ["studio-trang-tinh-khoi", 2],
-  ["lua-do-giua-rung", 1],
-  ["cung-dien-vang-son", 0],
-  ["doi-thong-trong-gio", 0],
-];
