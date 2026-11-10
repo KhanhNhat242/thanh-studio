@@ -376,18 +376,29 @@ blockquote {
   top: 50%;
   left: 50%;
   width: min(1000px, 92vw);
-  /* cao trọn màn hình: chừa 100px cho header + 84px dải thẻ phía sau ló lên + 24px đáy */
-  height: calc(100% - 208px);
+  /* lấp trọn khung (phần màn hình dưới tiêu đề): chừa 16px dưới tiêu đề + 84px dải thẻ phía sau ló lên + 24px đáy */
+  height: calc(100% - 124px);
   overflow: hidden;
   border-radius: 6px;
   background: var(--color-ink);
   box-shadow: 0 -18px 40px -24px color-mix(in srgb, var(--color-ink) 45%, transparent);
   transform-origin: 50% 0%;
-  /* -50% + 80px: khối (84px dải thẻ phía sau + thẻ) nằm từ 100px tới cách đáy 24px */
-  transform: translateX(-50%) translateY(calc(-50% + 80px +var(--rise) * 115vh - min(var(--back), 3) * 28px))
+  /* -50% + 38px: khối (84px dải thẻ phía sau + thẻ) nằm cách tiêu đề 16px, cách đáy 24px */
+  transform: translateX(-50%) translateY(calc(-50% + 38px + var(--rise) * 115vh - min(var(--back), 3) * 28px))
     scale(calc(1 - 0.06 * min(var(--back), 3)));
   opacity: calc(3.6 - var(--back));
   will-change: transform;
+}
+
+/* điểm lấy nét ảnh theo từng bối cảnh (data/locations.ts): --pos-m cho thẻ mobile, --pos cho desktop */
+.locations-card__img {
+  object-position: var(--pos-m);
+}
+
+@media (min-width: 48rem) {
+  .locations-card__img {
+    object-position: var(--pos);
+  }
 }
 
 .locations-card__dim {

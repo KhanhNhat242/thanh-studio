@@ -11,6 +11,14 @@ export interface Location {
   itinerary: string;
   image: StaticImageData;
   imageAlt: string;
+  /** object-position cho thẻ ngang (ảnh dọc bị cắt) — giữ mặt cô dâu chú rể trong khung */
+  imagePosition?: string;
+  /** Khối chữ trên thẻ (desktop): mặc định trái; "right" khi người trong ảnh đứng bên trái */
+  textSide?: "left" | "right";
+  /** object-position riêng cho thẻ mobile (gần vuông) */
+  imagePositionMobile?: string;
+  /** Khối chữ trên thẻ mobile: mặc định "top" (vùng trời/cây/rèm), "bottom" khi người đứng cao trong ảnh */
+  mobileText?: "top" | "bottom";
 }
 
 export interface Service {

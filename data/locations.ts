@@ -53,6 +53,7 @@ export const locations: Location[] = [
       "Gợi ý: bình minh trên ghềnh đá, buổi chiều giữa rừng cây xanh mát.",
     image: albumPhotos["nang-rung-nhiet-doi"][2],
     imageAlt: "Cô dâu chú rể giữa khu rừng nhiệt đới ngập nắng",
+    imagePosition: "50% 73%",
   },
   {
     key: "phim-truong",
@@ -64,5 +65,9 @@ export const locations: Location[] = [
       "Gợi ý: phù hợp ngày mưa nắng thất thường, chủ động trọn thời gian.",
     image: albumPhotos["studio-trang-tinh-khoi"][0],
     imageAlt: "Cô dâu chú rể trong studio phông rèm trắng tinh khôi",
+    imagePosition: "50% 30%",
+    textSide: "right",
+    imagePositionMobile: "50% 0%",
+    mobileText: "bottom",
   },
 ];
