@@ -10,7 +10,7 @@ export function Locations() {
       <LocationsStack
         locations={locations}
         heading={
-          <Container className="pt-[96px] md:pt-[112px]">
+          <Container className="locations-heading pt-[96px] md:pt-[112px]">
             <SectionHeading
               align="center"
               eyebrow="Bối cảnh"

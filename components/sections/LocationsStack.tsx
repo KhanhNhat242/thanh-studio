@@ -73,12 +73,12 @@ export function LocationsStack({ locations, heading }: { locations: Location[]; 
                 {/* Mobile: chữ mặc định ở trên thẻ (người trong ảnh thường ở giữa/dưới); khi ở dưới thì pr-16 chừa chỗ
                   cho cụm nút Gọi/Zalo/Messenger cố định (F7). Desktop: chữ luôn ở dưới. */}
                 <div
-                  className={`absolute inset-x-0 p-6 text-cream text-shadow-soft md:top-auto md:bottom-0 md:p-10 ${textTop ? "top-0" : "bottom-0 pr-16"
+                  className={`locations-card__text absolute inset-x-0 p-6 text-cream text-shadow-soft md:top-auto md:bottom-0 md:p-10 ${textTop ? "top-0" : "bottom-0 pr-16"
                     } ${loc.textSide === "right" ? "md:flex md:flex-col md:items-end md:text-right" : ""
                     }`}
                 >
-                  <h3 className="font-serif text-[34px] leading-[1.05] font-light md:text-[56px]">{loc.name}</h3>
-                  <p className={`mt-3 max-w-[520px] text-[15px] leading-[1.65] text-cream/90 md:block md:text-[16px] ${textTop ? "" : "hidden"}`}>
+                  <h3 className="locations-card__title font-serif text-[34px] leading-[1.05] font-light md:text-[56px]">{loc.name}</h3>
+                  <p className={`locations-card__desc mt-3 max-w-[520px] text-[15px] leading-[1.65] text-cream/90 md:block md:text-[16px] ${textTop ? "" : "hidden"}`}>
                     {nb(loc.description)}
                   </p>
                 </div>

@@ -335,8 +335,36 @@ blockquote {
   /* Bước ngang tối đa 62% bề rộng thẻ → thẻ chính luôn đè lên ~1/3 mỗi thẻ phụ */
   transform: translate(-50%, -50%) translateX(calc(var(--off) * min(62%, 21cqw)))
     scale(calc(1 - 0.12 * min(var(--depth), 2)));
-  opacity: calc(2.6 - var(--depth));
+  /* mờ dần ra hai mép, tắt hẳn ở |off| = 2.5 (chỗ thẻ vòng sang phía bên kia) */
+  opacity: max(0, min(1, 2.6 - var(--depth), (2.5 - var(--depth)) * 1.2));
+  /* thẻ tự biết chiều cao của mình → gọn chữ khi thẻ thấp (màn hình thấp) */
+  container-type: size;
   will-change: transform;
+}
+
+/* Thẻ thấp: tiêu đề nhỏ lại, bớt mô tả để tiêu đề (trên) không chồng lên phần chữ (dưới) */
+@container (max-height: 460px) {
+  .services-card__title {
+    font-size: 24px;
+  }
+
+  .services-card__desc {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+}
+
+/* Thẻ nhỏ (thấp hoặc hẹp): chỉ giữ tiêu đề, đặt ở đáy thẻ — ẩn nhãn, mô tả và nút; cả thẻ vẫn là link tới form đặt lịch */
+@container (max-height: 340px) or (max-width: 260px) {
+  .services-card__body {
+    display: none;
+  }
+
+  .services-card__title {
+    margin-top: auto;
+  }
 }
 
 .services-card__dim {
@@ -400,6 +428,41 @@ blockquote {
 @media (min-width: 48rem) {
   .locations-card__img {
     object-position: var(--pos);
+  }
+}
+
+/* Chữ của thẻ đã lùi ra sau ẩn hẳn — không ló lên ở dải thẻ phía sau */
+.locations-card__text {
+  opacity: calc(1 - var(--back) * 2);
+}
+
+/* Màn hình thấp (cửa sổ desktop thấp, laptop zoom, tablet ngang): tiêu đề section & chữ trên thẻ gọn lại
+   để thẻ luôn cao hơn khối chữ — tránh chữ bị cắt ở mép trên thẻ */
+@media (max-height: 820px) {
+  .locations-heading,
+  .services-heading {
+    padding-top: 84px;
+  }
+
+  .locations-heading :is(h2, h3),
+  .services-heading :is(h2, h3) {
+    font-size: clamp(30px, 5.5svh, 44px);
+    line-height: 1.1;
+  }
+
+  .locations-card__text {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  .locations-card__title {
+    font-size: clamp(28px, 5.5svh, 44px);
+  }
+}
+
+@media (max-height: 520px) {
+  .locations-card__desc {
+    display: none;
   }
 }
 

@@ -26,7 +26,9 @@ export function ServicesStack({ services, heading }: { services: Service[]; head
       const pos = p * (n - 1);
       cardRefs.current.forEach((card, i) => {
         if (!card) return;
-        const off = i - pos;
+        // Dãy thẻ chạy vòng: off ∈ [-n/2, n/2) → thẻ giữa luôn có 2 thẻ phụ mỗi bên (thẻ đầu: 4 & 5 nằm bên trái).
+        // Thẻ vòng từ mép phải sang mép trái ở |off| = 2.5, lúc đó đã mờ hẳn (opacity 0) nên không thấy nhảy.
+        const off = ((((i - pos + n / 2) % n) + n) % n) - n / 2;
         card.style.setProperty("--off", off.toFixed(4));
         card.style.setProperty("--depth", Math.abs(off).toFixed(4));
         card.style.zIndex = String(100 - Math.round(Math.abs(off) * 10));
@@ -52,7 +54,7 @@ export function ServicesStack({ services, heading }: { services: Service[]; head
               href="#dat-lich"
               aria-label={`${s.title} — tư vấn dịch vụ này`}
               className="services-card group"
-              style={{ "--off": i, "--depth": i } as CSSProperties}
+              style={{ "--off": i > n / 2 ? i - n : i, "--depth": Math.abs(i > n / 2 ? i - n : i) } as CSSProperties}
             >
               <Image
                 src={s.image}
@@ -65,19 +67,23 @@ export function ServicesStack({ services, heading }: { services: Service[]; head
               />
               <span aria-hidden className="absolute inset-0 bg-gradient-to-b from-ink/70 via-transparent via-40% to-ink/80" />
               <span aria-hidden className="services-card__dim absolute inset-0 bg-ink" />
-              <span className="absolute inset-x-0 top-0 p-5 md:p-6">
-                <span className="block font-serif text-[26px] leading-[1.02] font-light text-cream text-shadow-soft md:text-[36px]">
+              {/* Tiêu đề (trên) và phần chữ (dưới) chung một cột flex: thiếu chỗ thì đoạn mô tả co lại & bị cắt,
+                  không bao giờ đè lên tiêu đề */}
+              <span className="absolute inset-0 flex flex-col p-5 md:p-6">
+                <span className="services-card__title block shrink-0 font-serif text-[26px] leading-[1.02] font-light text-cream text-shadow-soft md:text-[36px]">
                   {nb(s.title)}
                 </span>
-              </span>
-              <span className="services-card__body absolute inset-x-0 bottom-0 p-5 text-cream md:p-6">
-                {s.badge && (
-                  <span className="mb-3 inline-block bg-blush px-2.5 py-0.5 text-[12px] font-medium text-ink">{s.badge}</span>
-                )}
-                <span className="block text-[14px] leading-[1.6] text-cream/90 md:text-[15px]">{nb(s.description)}</span>
-                <span className="mt-3 inline-flex items-center gap-2 text-[14px] font-medium text-cream underline decoration-champagne underline-offset-[6px]">
-                  Tư vấn dịch vụ
-                  <ArrowRightIcon className="size-4 transition-transform duration-500 group-hover:translate-x-1" />
+                <span className="services-card__body mt-4 flex min-h-0 flex-1 flex-col justify-end text-cream">
+                  {s.badge && (
+                    <span className="mb-3 shrink-0 self-start bg-blush px-2.5 py-0.5 text-[12px] font-medium text-ink">{s.badge}</span>
+                  )}
+                  <span className="services-card__desc block min-h-0 overflow-hidden text-[14px] leading-[1.6] text-cream/90 md:text-[15px]">
+                    {nb(s.description)}
+                  </span>
+                  <span className="mt-3 inline-flex shrink-0 items-center gap-2 self-start text-[14px] font-medium text-cream underline decoration-champagne underline-offset-[6px]">
+                    Tư vấn dịch vụ
+                    <ArrowRightIcon className="size-4 transition-transform duration-500 group-hover:translate-x-1" />
+                  </span>
                 </span>
               </span>
             </Link>
